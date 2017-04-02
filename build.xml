@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Export2Inet" default="main" basedir=".">
+  <property name="main.class" value="inet_data.Export2Inet" />
+  <property name="source.dir" value="src" />
+  <property name="out.dir" value="c:/Work/out" />
+  <property name="build.dir" value="${out.dir}/build" />
+  <property name="dist.dir" value="${out.dir}/dist" />
+  <property name="lib.dir" value="${dist.dir}/lib" />
+  <property name="jdbc.dir" location="c:/Program Files/Java/jdbc/" />
+  <property name="net.dir" location="c:/Program Files/Java/commons-net-2.0/" />
+  <property name="jar.name" value="${ant.project.name}.jar" />
+
+  <path id="build.classpath">
+    <fileset dir="${lib.dir}">
+      <include name="**.jar" />
+    </fileset>
+  </path>
+
+  <target name="clean" description="clean up">
+    <!-- Delete the ${build} and ${dist} directory trees -->
+    <delete dir="${build.dir}" />
+    <!--<delete dir="${dist.dir}" />-->
+  </target>
+
+  <target name="init" depends="clean">
+    <mkdir dir="${build.dir}" />
+    <mkdir dir="${dist.dir}" />
+    <mkdir dir="${lib.dir}" />
+    <copy todir="${lib.dir}">
+      <fileset dir="${jdbc.dir}">
+        <include name="**/*.jar" />
+      </fileset>
+      <fileset dir="${net.dir}">
+        <include name="**/commons-net-2.0.jar" />
+        <include name="**/commons-net-ftp-2.0.jar" />
+      </fileset>
+    </copy>
+  </target>
+
+  <target name="compile" depends="init">
+    <!--  Compile the java code from ${src} into ${build}  -->
+    <echo message="${ant.project.name}: ${ant.file}" />
+    <javac srcdir="${source.dir}" destdir="${build.dir}">
+      <include name="**/*.java" />
+      <classpath refid="build.classpath" />
+    </javac>
+  </target>
+
+  <target name="main" depends="compile">
+    <copy file="Export2Inet.cmd" todir="${dist.dir}" />
+    <copy file="7za.exe" todir="${dist.dir}" />
+    <manifestclasspath property="jar.classpath" jarfile="${dist.dir}/${jar.name}">
+      <classpath refid="build.classpath" />
+    </manifestclasspath>
+    <!-- Export2Inet.jar -->
+    <jar destfile="${dist.dir}/${jar.name}" basedir="${build.dir}">
+      <manifest>
+        <attribute name="Main-Class" value="${main.class}" />
+        <attribute name="Class-Path" value="${jar.classpath}" />
+      </manifest>
+    </jar>
+  </target>
+
+</project>

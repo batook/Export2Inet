@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="sv">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../lib/commons-net-2.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../lib/commons-net-ftp-2.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../lib/ojdbc14.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../lib/orai18n.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
